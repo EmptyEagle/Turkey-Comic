@@ -38,6 +38,8 @@ public class PawnStatus : MonoBehaviour
     void Update()
     {
         healthText.text = health.ToString();
+        blockingLeftText.text = isBlockingLeft.ToString();
+        blockingRightText.text = isBlockingRight.ToString();
     }
 
     public void TryDamage(int damage, AttackTarget attackingSide)
@@ -49,7 +51,6 @@ public class PawnStatus : MonoBehaviour
 
             // attack hits the target
             health -= damage;
-            Debug.Log("Dealt damage");
             if (health <= 0)
             {
                 if (isPlayer)
@@ -68,20 +69,16 @@ public class PawnStatus : MonoBehaviour
                 }
             }
         }
-        Debug.Log("Attack blocked");
     }
 
     public void SetBlockLeft(bool isBlocking)
     {
         isBlockingLeft = isBlocking;
-        blockingLeftText.text = isBlockingLeft.ToString();
-        Debug.Log(blockingLeftText.text);
     }
 
     public void SetBlockRight(bool isBlocking)
     {
         isBlockingRight = isBlocking;
-        blockingRightText.text = isBlockingRight.ToString();
     }
 
     public bool GetBlockLeft()

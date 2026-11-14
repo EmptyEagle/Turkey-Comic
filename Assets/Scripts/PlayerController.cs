@@ -114,8 +114,8 @@ public class PlayerController : MonoBehaviour
         if (canBlockLeft)
         {
             StartCoroutine(DoBlockCooldownLeft());
-            playerAnimator.BlockLeftAnim();
             playerStatus.SetBlockLeft(true);
+            playerAnimator.BlockLeftAnim();
         }
     }
 
@@ -124,8 +124,8 @@ public class PlayerController : MonoBehaviour
         if (canBlockRight)
         {
             StartCoroutine(DoBlockCooldownRight());
-            playerAnimator.BlockRightAnim();
             playerStatus.SetBlockRight(true);
+            playerAnimator.BlockRightAnim();
         }
     }
 

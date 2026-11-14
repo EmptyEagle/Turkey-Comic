@@ -14,6 +14,7 @@ public class PawnAnimator : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        pawnStatus = GetComponent<PawnStatus>();
         isAttackingLeft = false;
         isAttackingRight = false;
         pawnAnimatorLeft.SetFloat("PunchValue", 0);
@@ -22,6 +23,8 @@ public class PawnAnimator : MonoBehaviour
         pawnAnimatorLeft.SetBool("BoolBlocking", false);
         pawnAnimatorRight.SetFloat("BlockValue", 0);
         pawnAnimatorRight.SetBool("BoolBlocking", false);
+        canStartBlockLeft = true;
+        canStartBlockRight = true;
     }
 
     public void AttackLeftAnim()
@@ -115,16 +118,17 @@ public class PawnAnimator : MonoBehaviour
         while (pawnStatus.GetBlockLeft())
         {
             pawnAnimatorLeft.SetFloat("BlockValue", blockTime);
-            blockTime += 0.25f;
-            if (blockTime > 1)
+            blockTime += 0.5f;
+            if (blockTime > 0.5f)
             {
-                blockTime = 1;
+                blockTime = 0.5f;
             }
             yield return new WaitForSeconds(0.06f);
         }
-        pawnAnimatorLeft.SetFloat("BlockValue", 1);
+        pawnAnimatorLeft.SetFloat("BlockValue", 0.5f);
         yield return new WaitForSeconds(0.1f);
         pawnAnimatorLeft.SetFloat("BlockValue", 0);
+        pawnAnimatorLeft.SetBool("BoolBlocking", false);
         canStartBlockLeft = true;
     }
 
@@ -136,16 +140,18 @@ public class PawnAnimator : MonoBehaviour
         while (pawnStatus.GetBlockRight())
         {
             pawnAnimatorRight.SetFloat("BlockValue", blockTime);
-            blockTime += 0.25f;
-            if (blockTime > 1)
+            blockTime += 0.5f;
+            if (blockTime > 0.5f)
             {
-                blockTime = 1;
+                blockTime = 0.5f;
             }
             yield return new WaitForSeconds(0.06f);
+            Debug.Log("Blocking anim");
         }
-        pawnAnimatorRight.SetFloat("BlockValue", 1);
+        pawnAnimatorRight.SetFloat("BlockValue", 0.5f);
         yield return new WaitForSeconds(0.1f);
         pawnAnimatorRight.SetFloat("BlockValue", 0);
+        pawnAnimatorRight.SetBool("BoolBlocking", false);
         canStartBlockRight = true;
     }
 }
