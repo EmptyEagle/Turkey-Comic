@@ -38,7 +38,7 @@ public class EnemyController : MonoBehaviour
     IEnumerator DoMove()
     {
         canDoMove = false;
-        float rand = Random.Range(0.5f, 1.2f);
+        float rand = Random.Range(0.9f, 1.6f);
         yield return new WaitForSeconds(rand);
         ExecuteMove();
         canDoMove = true;
@@ -144,6 +144,7 @@ public class EnemyController : MonoBehaviour
     IEnumerator AttackLeft()
     {
         canAttackLeft = false;
+        canAttackRight = false;
         Debug.Log("Enemy attacking left");
         enemyAnimator.AttackLeftAnim();
         if (playerStatus.TryDamage(1, PawnStatus.AttackTarget.Left))
@@ -151,13 +152,15 @@ public class EnemyController : MonoBehaviour
             // when landing a successful hit, reset player subsequent hits
             playerController.ResetSubsequentHits();
         }
-        yield return new WaitForSeconds(0.24f);
+        yield return new WaitForSeconds(0.5f);
         canAttackLeft = true;
+        canAttackRight = true;
     }
 
     IEnumerator AttackRight()
     {
         canAttackRight = false;
+        canAttackLeft = false;
         Debug.Log("Enemy attacking left");
         enemyAnimator.AttackRightAnim();
         if (playerStatus.TryDamage(1, PawnStatus.AttackTarget.Right))
@@ -165,8 +168,9 @@ public class EnemyController : MonoBehaviour
             // when landing a successful hit, reset player subsequent hits
             playerController.ResetSubsequentHits();
         }
-        yield return new WaitForSeconds(0.24f);
+        yield return new WaitForSeconds(0.5f);
         canAttackRight = true;
+        canAttackLeft = true;
     }
 
     IEnumerator BlockLeft()
