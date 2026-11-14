@@ -2,10 +2,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.UI;
+using System.Collections;
 
 public class PawnStatus : MonoBehaviour
 {
     private int health;
+    private bool isPawnAlive;
     public bool isPlayer;
     public enum AttackTarget
     {
@@ -33,6 +35,7 @@ public class PawnStatus : MonoBehaviour
         {
             health = 4;
         }
+        isPawnAlive = true;
     }
 
     void Update()
@@ -42,7 +45,7 @@ public class PawnStatus : MonoBehaviour
         blockingRightText.text = isBlockingRight.ToString();
     }
 
-    public void TryDamage(int damage, AttackTarget attackingSide)
+    public bool TryDamage(int damage, AttackTarget attackingSide)
     {
         if ((attackingSide == AttackTarget.Left && !isBlockingLeft) || (attackingSide == AttackTarget.Right && !isBlockingRight))
         {
@@ -59,6 +62,8 @@ public class PawnStatus : MonoBehaviour
                     Debug.Log("GAME OVER");
                     // play player defeated animation
                     // game over screen
+                    isPawnAlive = false;
+                    Time.timeScale = 0;
                 }
                 else
                 {
@@ -66,9 +71,17 @@ public class PawnStatus : MonoBehaviour
                     Debug.Log("Enemy defeated");
                     // play enemy defeated animation
                     // spawn next enemy
+                    isPawnAlive = false;
+                    StartCoroutine(SpawnNextEnemy());
                 }
             }
+            if (!isPawnAlive)
+            {
+                return false;
+            }
+            return true;
         }
+        return false;
     }
 
     public void SetBlockLeft(bool isBlocking)
@@ -89,5 +102,31 @@ public class PawnStatus : MonoBehaviour
     public bool GetBlockRight()
     {
         return isBlockingRight;
+    }
+
+    public int GetHealth()
+    {
+        return health;
+    }
+
+    public void RecoverHealth(int health)
+    {
+        this.health += health;
+        if (health > 10)
+        {
+            health = 10;
+        }
+    }
+
+    IEnumerator SpawnNextEnemy()
+    {
+        yield return new WaitForSeconds(5f);
+        health = 4;
+        isPawnAlive = true;
+    }
+
+    public bool IsPawnAlive()
+    {
+        return isPawnAlive;
     }
 }
