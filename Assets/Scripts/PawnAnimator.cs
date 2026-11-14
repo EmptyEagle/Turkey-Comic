@@ -6,6 +6,8 @@ public class PawnAnimator : MonoBehaviour
     private PawnStatus pawnStatus;
     private bool isAttackingLeft;
     private bool isAttackingRight;
+    private bool canStartBlockLeft;
+    private bool canStartBlockRight;
     [SerializeField] Animator pawnAnimatorLeft;
     [SerializeField] Animator pawnAnimatorRight;
 
@@ -16,6 +18,10 @@ public class PawnAnimator : MonoBehaviour
         isAttackingRight = false;
         pawnAnimatorLeft.SetFloat("PunchValue", 0);
         pawnAnimatorRight.SetFloat("PunchValue", 0);
+        pawnAnimatorLeft.SetFloat("BlockValue", 0);
+        pawnAnimatorLeft.SetBool("BoolBlocking", false);
+        pawnAnimatorRight.SetFloat("BlockValue", 0);
+        pawnAnimatorRight.SetBool("BoolBlocking", false);
     }
 
     public void AttackLeftAnim()
@@ -36,12 +42,18 @@ public class PawnAnimator : MonoBehaviour
 
     public void BlockLeftAnim()
     {
-        StartCoroutine(PlayBlockAnim(false));
+        if (canStartBlockLeft)
+        {
+            StartCoroutine(PlayLeftBlockAnim());
+        }
     }
 
     public void BlockRightAnim()
     {
-        StartCoroutine(PlayBlockAnim(true));
+        if (canStartBlockRight)
+        {
+            StartCoroutine(PlayRightBlockAnim());
+        }
     }
 
     public void TakeDamageAnim()
@@ -95,17 +107,45 @@ public class PawnAnimator : MonoBehaviour
         isAttackingRight = false;
     }
 
-    private IEnumerator PlayBlockAnim(bool isRight)
+    private IEnumerator PlayLeftBlockAnim()
     {
-        if (isRight)
+        canStartBlockLeft = false;
+        float blockTime = 0;
+        pawnAnimatorLeft.SetBool("BoolBlocking", true);
+        while (pawnStatus.GetBlockLeft())
         {
-            // do right block animation
-            yield return new WaitForSeconds(0.5f);
+            pawnAnimatorLeft.SetFloat("BlockValue", blockTime);
+            blockTime += 0.25f;
+            if (blockTime > 1)
+            {
+                blockTime = 1;
+            }
+            yield return new WaitForSeconds(0.06f);
         }
-        else
+        pawnAnimatorLeft.SetFloat("BlockValue", 1);
+        yield return new WaitForSeconds(0.1f);
+        pawnAnimatorLeft.SetFloat("BlockValue", 0);
+        canStartBlockLeft = true;
+    }
+
+    private IEnumerator PlayRightBlockAnim()
+    {
+        canStartBlockRight = false;
+        float blockTime = 0;
+        pawnAnimatorRight.SetBool("BoolBlocking", true);
+        while (pawnStatus.GetBlockRight())
         {
-            // do left block animation
-            yield return new WaitForSeconds(0.5f);
+            pawnAnimatorRight.SetFloat("BlockValue", blockTime);
+            blockTime += 0.25f;
+            if (blockTime > 1)
+            {
+                blockTime = 1;
+            }
+            yield return new WaitForSeconds(0.06f);
         }
+        pawnAnimatorRight.SetFloat("BlockValue", 1);
+        yield return new WaitForSeconds(0.1f);
+        pawnAnimatorRight.SetFloat("BlockValue", 0);
+        canStartBlockRight = true;
     }
 }

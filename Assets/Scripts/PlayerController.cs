@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
 
     private bool canAttackLeft;
     private bool canAttackRight;
+    private bool canBlockLeft;
+    private bool canBlockRight;
     
     private PawnAnimator playerAnimator;
     
@@ -26,10 +28,10 @@ public class PlayerController : MonoBehaviour
     {
         playerStatus = GetComponent<PawnStatus>();
         playerAnimator = GetComponent<PawnAnimator>();
-        Debug.Log(playerStatus.GetBlockLeft());
-        Debug.Log(playerStatus.GetBlockRight());
         canAttackLeft = true;
         canAttackRight = true;
+        canBlockLeft = true;
+        canBlockRight = true;
     }
 
     void Awake()
@@ -57,25 +59,31 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // if player is not blocking they can attack
         if (attackLeft.WasPressedThisFrame() && playerStatus.GetBlockLeft() != true)
         {
-            Debug.Log("Attack left");
             AttackLeft();
         }
         if (attackRight.WasPressedThisFrame() && playerStatus.GetBlockRight() != true)
         {
-            Debug.Log("Attack right");
             AttackRight();
         }
-        if (blockLeft.IsPressed())
+        // if player has the ability to attack that means they have the ability to block
+        if (blockLeft.WasPressedThisFrame() && canAttackLeft)
         {
-            playerStatus.BlockLeft();
-            Debug.Log(playerStatus.GetBlockLeft());
+            BlockStartLeft();
         }
-        if (blockRight.IsPressed())
+        else if (blockLeft.WasReleasedThisFrame())
         {
-            playerStatus.BlockRight();
-            Debug.Log(playerStatus.GetBlockRight());
+            playerStatus.SetBlockLeft(false);
+        }
+        if (blockRight.WasPressedThisFrame() && canAttackRight)
+        {
+            BlockStartRight();
+        }
+        else if (blockRight.WasReleasedThisFrame())
+        {
+            playerStatus.SetBlockRight(false);
         }
     }
 
@@ -101,17 +109,51 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void BlockStartLeft()
+    {
+        if (canBlockLeft)
+        {
+            StartCoroutine(DoBlockCooldownLeft());
+            playerAnimator.BlockLeftAnim();
+            playerStatus.SetBlockLeft(true);
+        }
+    }
+
+    void BlockStartRight()
+    {
+        if (canBlockRight)
+        {
+            StartCoroutine(DoBlockCooldownRight());
+            playerAnimator.BlockRightAnim();
+            playerStatus.SetBlockRight(true);
+        }
+    }
+
     IEnumerator DoAttackCooldownLeft()
     {
         canAttackLeft = false;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.24f);
         canAttackLeft = true;
     }
 
     IEnumerator DoAttackCooldownRight()
     {
         canAttackRight = false;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.24f);
         canAttackRight = true;
+    }
+
+    IEnumerator DoBlockCooldownLeft()
+    {
+        canBlockLeft = false;
+        yield return new WaitForSeconds(0.24f);
+        canBlockLeft = true;
+    }
+
+    IEnumerator DoBlockCooldownRight()
+    {
+        canBlockRight = false;
+        yield return new WaitForSeconds(0.24f);
+        canBlockRight = true;
     }
 }

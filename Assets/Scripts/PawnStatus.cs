@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class PawnStatus : MonoBehaviour
 {
@@ -13,8 +14,13 @@ public class PawnStatus : MonoBehaviour
     };
     private bool isBlockingLeft;
     private bool isBlockingRight;
+
+    public Text blockingLeftText;
+    public Text blockingRightText;
     
     private PawnAnimator pawnAnimator;
+
+    public Text healthText;
 
     void Start()
     {
@@ -29,10 +35,9 @@ public class PawnStatus : MonoBehaviour
         }
     }
 
-    void LateUpdate()
+    void Update()
     {
-        isBlockingLeft = false;
-        isBlockingRight = false;
+        healthText.text = health.ToString();
     }
 
     public void TryDamage(int damage, AttackTarget attackingSide)
@@ -63,16 +68,20 @@ public class PawnStatus : MonoBehaviour
                 }
             }
         }
+        Debug.Log("Attack blocked");
     }
 
-    public void BlockLeft()
+    public void SetBlockLeft(bool isBlocking)
     {
-        isBlockingLeft = true;
+        isBlockingLeft = isBlocking;
+        blockingLeftText.text = isBlockingLeft.ToString();
+        Debug.Log(blockingLeftText.text);
     }
 
-    public void BlockRight()
+    public void SetBlockRight(bool isBlocking)
     {
-        isBlockingRight = true;
+        isBlockingRight = isBlocking;
+        blockingRightText.text = isBlockingRight.ToString();
     }
 
     public bool GetBlockLeft()

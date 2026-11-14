@@ -10,35 +10,87 @@ public class EnemyController : MonoBehaviour
     private bool canAttackRight;
     private bool canBlockLeft;
     private bool canBlockRight;
+    private PawnAnimator enemyAnimator;
+    private bool canDoMove;
 
     void Start()
     {
         enemyStatus = GetComponent<PawnStatus>();
+        enemyAnimator = GetComponent<PawnAnimator>();
         canAttackLeft = true;
         canAttackRight = true;
         canBlockLeft = true;
         canBlockRight = true;
+        canDoMove = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    private void TryMove()
-    {
-        
-    }
-
-    private void DoAttackLeft()
-    {
+        if (canDoMove)
+        {
+            StartCoroutine(DoMove());
+        }
 
     }
 
-    private void DoAttackRight()
+    IEnumerator DoMove()
     {
+        canDoMove = false;
+        float rand = Random.Range(0.5f, 1.2f);
+        yield return new WaitForSeconds(rand);
+        ExecuteMove();
+        canDoMove = true;
+    }
 
+    private void ExecuteMove()
+    {
+        /*
+         * when given the opportunity to move:
+         * 30% chance to block left
+         * 30% chance to block right
+         * 15% chance to attack left
+         * 15% chance to attack right
+         * 10% chance to block both
+         */
+        int rand = Random.Range(1, 100);
+        if (rand > 70)
+        {
+            AttemptBlockLeft();
+        }
+        else if (rand > 40)
+        {
+            AttemptBlockRight();
+        }
+        else if (rand > 25)
+        {
+            AttemptAttackLeft();
+        }
+        else if (rand > 10)
+        {
+            AttemptAttackRight();
+        }
+        else
+        {
+            AttemptBlockLeft();
+            AttemptBlockRight();
+        }
+    }
+
+    private void AttemptAttackLeft()
+    {
+        if (canAttackLeft)
+        {
+            StartCoroutine(AttackLeft());
+        }
+    }
+
+    private void AttemptAttackRight()
+    {
+        if (canAttackRight)
+        {
+            StartCoroutine(AttackRight());
+        }
     }
 
     public void AttemptBlockLeft()
@@ -53,11 +105,13 @@ public class EnemyController : MonoBehaviour
         if (rand > 50 && canBlockLeft)
         {
             // block correct side
+            StopCoroutine(DoMove());
             StartCoroutine(BlockLeft());
         }
         else if (rand > 25 && canBlockLeft && canBlockRight)
         {
             // block incorrect side
+            StopCoroutine(DoMove());
             StartCoroutine(BlockRight());
         }
     }
@@ -74,40 +128,55 @@ public class EnemyController : MonoBehaviour
         if (rand > 50 && canBlockRight)
         {
             // block correct side
+            StopCoroutine(DoMove());
             StartCoroutine(BlockRight());
+
         }
         else if (rand > 25 && canBlockRight && canBlockLeft)
         {
             // block incorrect side
+            StopCoroutine(DoMove());
             StartCoroutine(BlockLeft());
         }
+    }
+
+    IEnumerator AttackLeft()
+    {
+        canAttackLeft = false;
+        Debug.Log("Enemy attacking left");
+        enemyAnimator.AttackLeftAnim();
+        playerStatus.TryDamage(1, PawnStatus.AttackTarget.Left);
+        yield return new WaitForSeconds(0.24f);
+        canAttackLeft = true;
+    }
+
+    IEnumerator AttackRight()
+    {
+        canAttackRight = false;
+        Debug.Log("Enemy attacking left");
+        enemyAnimator.AttackRightAnim();
+        playerStatus.TryDamage(1, PawnStatus.AttackTarget.Right);
+        yield return new WaitForSeconds(0.24f);
+        canAttackRight = true;
     }
 
     IEnumerator BlockLeft()
     {
         canBlockLeft = false;
-        float startTime = Time.time;
-        float elapsedTime = startTime;
-        while (elapsedTime < startTime + 0.5f)
-        {
-            enemyStatus.BlockLeft();
-            elapsedTime += 0.001f;
-        }
-        yield return new WaitForSeconds(0.01f);
+        enemyStatus.SetBlockLeft(true);
+        yield return new WaitForSeconds(0.3f);
+        enemyStatus.SetBlockLeft(false);
         canBlockLeft = true;
+        canDoMove = true;
     }
 
     IEnumerator BlockRight()
     {
         canBlockRight = false;
-        float startTime = Time.time;
-        float elapsedTime = startTime;
-        while (elapsedTime < startTime + 0.5f)
-        {
-            enemyStatus.BlockRight();
-            elapsedTime += 0.001f;
-        }
-        yield return new WaitForSeconds(0.01f);
+        enemyStatus.SetBlockRight(true);
+        yield return new WaitForSeconds(0.3f);
+        enemyStatus.SetBlockRight(false);
         canBlockRight = true;
+        canDoMove = true;
     }
 }
