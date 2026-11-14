@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     private bool canAttackRight;
     
     private PawnAnimator playerAnimator;
+    
+    [SerializeField] EnemyController enemyController;
 
     void Start()
     {
@@ -83,6 +85,7 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(DoAttackCooldownLeft());
             playerAnimator.AttackLeftAnim();
+            enemyController.AttemptBlockLeft();
             enemyStatus.TryDamage(1, PawnStatus.AttackTarget.Left);
         }
     }
@@ -93,6 +96,7 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(DoAttackCooldownRight());
             playerAnimator.AttackRightAnim();
+            enemyController.AttemptBlockRight();
             enemyStatus.TryDamage(1, PawnStatus.AttackTarget.Right);
         }
     }

@@ -6,19 +6,23 @@ public class PawnAnimator : MonoBehaviour
     private PawnStatus pawnStatus;
     private bool isAttackingLeft;
     private bool isAttackingRight;
+    [SerializeField] Animator pawnAnimatorLeft;
+    [SerializeField] Animator pawnAnimatorRight;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         isAttackingLeft = false;
         isAttackingRight = false;
+        pawnAnimatorLeft.SetFloat("PunchValue", 0);
+        pawnAnimatorRight.SetFloat("PunchValue", 0);
     }
 
     public void AttackLeftAnim()
     {
         if (!isAttackingLeft)
         {
-            StartCoroutine(PlayAttackAnim(false));
+            StartCoroutine(PlayLeftAttackAnim());
         }
     }
 
@@ -26,7 +30,7 @@ public class PawnAnimator : MonoBehaviour
     {
         if (!isAttackingRight)
         {
-            StartCoroutine(PlayAttackAnim(true));
+            StartCoroutine(PlayRightAttackAnim());
         }
     }
 
@@ -45,21 +49,50 @@ public class PawnAnimator : MonoBehaviour
         // play take damage animation
     }
 
-    private IEnumerator PlayAttackAnim(bool isRight)
+    private IEnumerator PlayLeftAttackAnim()
     {
         // play animation
-        if (isRight)
+        isAttackingLeft = true;
+        float punchTime = 0;
+        // DIFFERENT GLOVE OBJECTS EACH WITH ITS OWN INSTANCE OF THE ANIMATOR
+        pawnAnimatorLeft.SetTrigger("TrPunch");
+        while (true)
         {
-            // do right attack animation
-            yield return new WaitForSeconds(0.5f);
-            isAttackingRight = false;
+            pawnAnimatorLeft.SetFloat("PunchValue", punchTime);
+            punchTime += 0.25f;
+            if (punchTime > 1)
+            {
+                break;
+            }
+            yield return new WaitForSeconds(0.06f);
         }
-        else
+        pawnAnimatorLeft.SetFloat("PunchValue", 1);
+        yield return new WaitForSeconds(0.1f);
+        pawnAnimatorLeft.SetFloat("PunchValue", 0);
+        isAttackingLeft = false;
+    }
+
+    private IEnumerator PlayRightAttackAnim()
+    {
+        // play animation
+        isAttackingRight = true;
+        float punchTime = 0;
+        // DIFFERENT GLOVE OBJECTS EACH WITH ITS OWN INSTANCE OF THE ANIMATOR
+        pawnAnimatorRight.SetTrigger("TrPunch");
+        while (true)
         {
-            // do left attack animation
-            yield return new WaitForSeconds(0.5f);
-            isAttackingLeft = false;
+            pawnAnimatorRight.SetFloat("PunchValue", punchTime);
+            punchTime += 0.25f;
+            if (punchTime > 1)
+            {
+                break;
+            }
+            yield return new WaitForSeconds(0.06f);
         }
+        pawnAnimatorRight.SetFloat("PunchValue", 1);
+        yield return new WaitForSeconds(0.1f);
+        pawnAnimatorRight.SetFloat("PunchValue", 0);
+        isAttackingRight = false;
     }
 
     private IEnumerator PlayBlockAnim(bool isRight)
