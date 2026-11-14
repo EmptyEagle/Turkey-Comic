@@ -12,6 +12,7 @@ public class EnemyController : MonoBehaviour
     private bool canBlockRight;
     private PawnAnimator enemyAnimator;
     private bool canDoMove;
+    [SerializeField] PlayerController playerController;
 
     void Start()
     {
@@ -27,7 +28,7 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (canDoMove)
+        if (canDoMove && enemyStatus.GetHealth() > 0)
         {
             StartCoroutine(DoMove());
         }
@@ -145,7 +146,11 @@ public class EnemyController : MonoBehaviour
         canAttackLeft = false;
         Debug.Log("Enemy attacking left");
         enemyAnimator.AttackLeftAnim();
-        playerStatus.TryDamage(1, PawnStatus.AttackTarget.Left);
+        if (playerStatus.TryDamage(1, PawnStatus.AttackTarget.Left))
+        {
+            // when landing a successful hit, reset player subsequent hits
+            playerController.ResetSubsequentHits();
+        }
         yield return new WaitForSeconds(0.24f);
         canAttackLeft = true;
     }
@@ -155,7 +160,11 @@ public class EnemyController : MonoBehaviour
         canAttackRight = false;
         Debug.Log("Enemy attacking left");
         enemyAnimator.AttackRightAnim();
-        playerStatus.TryDamage(1, PawnStatus.AttackTarget.Right);
+        if (playerStatus.TryDamage(1, PawnStatus.AttackTarget.Right))
+        {
+            // when landing a successful hit, reset player subsequent hits
+            playerController.ResetSubsequentHits();
+        }
         yield return new WaitForSeconds(0.24f);
         canAttackRight = true;
     }
@@ -164,7 +173,7 @@ public class EnemyController : MonoBehaviour
     {
         canBlockLeft = false;
         enemyStatus.SetBlockLeft(true);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.24f);
         enemyStatus.SetBlockLeft(false);
         canBlockLeft = true;
         canDoMove = true;
@@ -174,7 +183,7 @@ public class EnemyController : MonoBehaviour
     {
         canBlockRight = false;
         enemyStatus.SetBlockRight(true);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.24f);
         enemyStatus.SetBlockRight(false);
         canBlockRight = true;
         canDoMove = true;

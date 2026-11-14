@@ -11,6 +11,10 @@ public class PlayerController : MonoBehaviour
     private InputAction attackRight;
     private InputAction blockLeft;
     private InputAction blockRight;
+    private InputAction quit;
+    private InputAction pause;
+    private bool isGamePaused;
+    [SerializeField] GameObject pauseIndicator;
 
     private PawnStatus playerStatus;
     [SerializeField] PawnStatus enemyStatus;
@@ -23,6 +27,9 @@ public class PlayerController : MonoBehaviour
     private PawnAnimator playerAnimator;
     
     [SerializeField] EnemyController enemyController;
+    // player can recover health by landing four hits without getting hit
+    private int hitsBeforeHeal = 4;
+    private int subsequentHits;
 
     void Start()
     {
@@ -32,6 +39,10 @@ public class PlayerController : MonoBehaviour
         canAttackRight = true;
         canBlockLeft = true;
         canBlockRight = true;
+        subsequentHits = 0;
+
+        isGamePaused = false;
+        pauseIndicator.SetActive(isGamePaused);
     }
 
     void Awake()
@@ -43,12 +54,15 @@ public class PlayerController : MonoBehaviour
     void OnEnable()
     {
         attackLeft = playerInput.Gameplay.AttackLeft;
-
         attackRight = playerInput.Gameplay.AttackRight;
 
         blockLeft = playerInput.Gameplay.BlockLeft;
-
         blockRight = playerInput.Gameplay.BlockRight;
+
+        quit = playerInput.Interface.Quit;
+        pause = playerInput.Interface.Pause;
+
+
     }
 
     void OnDisable()
@@ -59,6 +73,27 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // QUIT GAME
+        if (quit.WasPressedThisFrame())
+        {
+            Application.Quit();
+        }
+
+        // PAUSE GAME
+        if (pause.WasPressedThisFrame() && playerStatus.IsPawnAlive())
+        {
+            isGamePaused = !isGamePaused;
+            if (isGamePaused)
+            {
+                Time.timeScale = 0f;
+            }
+            else
+            {
+                Time.timeScale = 1f;
+            }
+            pauseIndicator.SetActive(isGamePaused);
+        }
+
         // if player is not blocking they can attack
         if (attackLeft.WasPressedThisFrame() && playerStatus.GetBlockLeft() != true)
         {
@@ -94,7 +129,16 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(DoAttackCooldownLeft());
             playerAnimator.AttackLeftAnim();
             enemyController.AttemptBlockLeft();
-            enemyStatus.TryDamage(1, PawnStatus.AttackTarget.Left);
+            if (enemyStatus.TryDamage(1, PawnStatus.AttackTarget.Left))
+            {
+                subsequentHits++;
+                if (subsequentHits >= hitsBeforeHeal)
+                {
+                    // heal player and reset subsequent hits
+                    playerStatus.RecoverHealth(1);
+                    subsequentHits = 0;
+                }
+            }
         }
     }
 
@@ -105,7 +149,16 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(DoAttackCooldownRight());
             playerAnimator.AttackRightAnim();
             enemyController.AttemptBlockRight();
-            enemyStatus.TryDamage(1, PawnStatus.AttackTarget.Right);
+            if (enemyStatus.TryDamage(1, PawnStatus.AttackTarget.Right))
+            {
+                subsequentHits++;
+                if (subsequentHits >= hitsBeforeHeal)
+                {
+                    // heal player and reset subsequent hits
+                    playerStatus.RecoverHealth(1);
+                    subsequentHits = 0;
+                }
+            }
         }
     }
 
@@ -155,5 +208,10 @@ public class PlayerController : MonoBehaviour
         canBlockRight = false;
         yield return new WaitForSeconds(0.24f);
         canBlockRight = true;
+    }
+
+    public void ResetSubsequentHits()
+    {
+        subsequentHits = 0;
     }
 }
