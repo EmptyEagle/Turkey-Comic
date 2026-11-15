@@ -22,26 +22,35 @@ public class EnemyController : MonoBehaviour
         canAttackRight = true;
         canBlockLeft = true;
         canBlockRight = true;
-        canDoMove = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (canDoMove && enemyStatus.GetHealth() > 0)
+        if (canDoMove && enemyStatus.IsPawnAlive())
         {
+            // THIS SHOULD ONLY RUN ONCE
+            enemyAnimator.SetShouldAnimate(true);
             StartCoroutine(DoMove());
+        }
+        else if (!enemyStatus.IsPawnAlive())
+        {
+            enemyAnimator.SetShouldAnimate(false);
+            canAttackLeft = true;
+            canAttackRight = true;
+            canBlockLeft = true;
+            canBlockRight = true;
         }
     }
 
     IEnumerator DoMove()
     {
-        float randSpeedMult = Random.Range(0.6f, 1.1f);
+        float randSpeedMult = Random.Range(0.4f, 1f);
         enemyAnimator.SetFrameTimeMult(randSpeedMult);
+        Debug.Log("Enemy speed mult "+randSpeedMult);
         canDoMove = false;
         yield return new WaitUntil(() => enemyAnimator.GetFrameTimePosition() >= 0.99);
         ExecuteMove();
-        canDoMove = true;
     }
 
     private void ExecuteMove()
@@ -146,7 +155,6 @@ public class EnemyController : MonoBehaviour
         canAttackLeft = false;
         canAttackRight = false;
         canBlockLeft = false;
-        Debug.Log("Enemy attacking left");
         enemyAnimator.AttackLeftAnim();
         // give a little delay before dealing damage to give player a chance to block
         yield return new WaitUntil(() => enemyAnimator.GetFrameTimePosition() >= 0.7);
@@ -166,7 +174,6 @@ public class EnemyController : MonoBehaviour
         canAttackRight = false;
         canAttackLeft = false;
         canBlockRight = false;
-        Debug.Log("Enemy attacking left");
         enemyAnimator.AttackRightAnim();
         // give a little delay before dealing damage to give player a chance to block
         yield return new WaitUntil(() => enemyAnimator.GetFrameTimePosition() >= 0.7);
@@ -199,5 +206,17 @@ public class EnemyController : MonoBehaviour
         enemyStatus.SetBlockRight(false);
         canBlockRight = true;
         canDoMove = true;
+    }
+
+    public void SetCanDoMove(bool canMove)
+    {
+        canDoMove = canMove;
+        if (canDoMove)
+        {
+            canAttackLeft = true;
+            canAttackRight = true;
+            canBlockLeft = true;
+            canBlockRight = true;
+        }
     }
 }
