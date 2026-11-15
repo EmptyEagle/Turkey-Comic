@@ -6,6 +6,7 @@ using System.Collections;
 
 public class PawnStatus : MonoBehaviour
 {
+    public int maxHealth;
     private int health;
     public bool isPlayer;
     public enum AttackTarget
@@ -37,7 +38,7 @@ public class PawnStatus : MonoBehaviour
         pawnAnimator = GetComponent<PawnAnimator>();
         if (isPlayer)
         {
-            health = 10;
+            health = maxHealth;
         }
         else
         {
@@ -86,6 +87,10 @@ public class PawnStatus : MonoBehaviour
             
 
             // attack hits the target
+            if (health > maxHealth)
+            {
+                health = maxHealth;
+            }
             health -= damage;
             if (!IsPawnAlive())
             {
@@ -141,9 +146,9 @@ public class PawnStatus : MonoBehaviour
     public void RecoverHealth(int health)
     {
         this.health += health;
-        if (health > 10)
+        if (this.health > 10)
         {
-            health = 10;
+            this.health = 10;
         }
     }
 
@@ -155,7 +160,7 @@ public class PawnStatus : MonoBehaviour
         }
 
         yield return new WaitForSeconds(3f);
-        health = 4;
+        health = maxHealth;
 
         // enemy cannot attack for a period after spawn
         StartCoroutine(DoInvincibilityTime(0.8f));

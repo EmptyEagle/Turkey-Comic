@@ -30,7 +30,6 @@ public class EnemyController : MonoBehaviour
         if (canDoMove && enemyStatus.IsPawnAlive())
         {
             // THIS SHOULD ONLY RUN ONCE
-            //Debug.Log("DOING MOVE "+Time.time);
             enemyAnimator.SetShouldAnimate(true);
             StartCoroutine(DoMove());
         }
@@ -46,13 +45,12 @@ public class EnemyController : MonoBehaviour
 
     IEnumerator DoMove()
     {
-        float randSpeedMult = Random.Range(0.6f, 1.1f);
+        float randSpeedMult = Random.Range(0.4f, 1f);
         enemyAnimator.SetFrameTimeMult(randSpeedMult);
         Debug.Log("Enemy speed mult "+randSpeedMult);
         canDoMove = false;
         yield return new WaitUntil(() => enemyAnimator.GetFrameTimePosition() >= 0.99);
         ExecuteMove();
-        canDoMove = true;
     }
 
     private void ExecuteMove()
@@ -213,5 +211,12 @@ public class EnemyController : MonoBehaviour
     public void SetCanDoMove(bool canMove)
     {
         canDoMove = canMove;
+        if (canDoMove)
+        {
+            canAttackLeft = true;
+            canAttackRight = true;
+            canBlockLeft = true;
+            canBlockRight = true;
+        }
     }
 }
