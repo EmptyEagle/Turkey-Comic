@@ -76,7 +76,7 @@ public class EnemyAnimator : PawnAnimator
         canStartBlockLeft = false;
         frameTimePos = 0;
         pawnAnimatorLeft.SetBool("BoolBlocking", true);
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.5f);
         pawnAnimatorLeft.SetBool("BoolBlocking", false);
         canStartBlockLeft = true;
     }
@@ -86,7 +86,7 @@ public class EnemyAnimator : PawnAnimator
         canStartBlockRight = false;
         frameTimePos = 0;
         pawnAnimatorRight.SetBool("BoolBlocking", true);
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.5f);
         pawnAnimatorRight.SetBool("BoolBlocking", false);
         canStartBlockRight = true;
     }

@@ -23,6 +23,10 @@ public class PawnStatus : MonoBehaviour
     private PawnAnimator pawnAnimator;
 
     public Text healthText;
+    [SerializeField] GameObject hitVisual;
+
+    [SerializeField] GameObject playerFistLeft;
+    [SerializeField] GameObject playerFistRight;
 
     void Start()
     {
@@ -36,6 +40,14 @@ public class PawnStatus : MonoBehaviour
             health = 4;
         }
         isPawnAlive = true;
+        if (playerFistLeft != null)
+        {
+            playerFistLeft.transform.position = new Vector3();
+        }
+        if (playerFistRight != null)
+        {
+            playerFistRight.transform.position = new Vector3();
+        }
     }
 
     void Update()
@@ -47,10 +59,26 @@ public class PawnStatus : MonoBehaviour
 
     public bool TryDamage(int damage, AttackTarget attackingSide)
     {
-        if ((attackingSide == AttackTarget.Left && !isBlockingLeft) || (attackingSide == AttackTarget.Right && !isBlockingRight))
+        if (isPawnAlive && health > 0 && ((attackingSide == AttackTarget.Left && !isBlockingLeft) || (attackingSide == AttackTarget.Right && !isBlockingRight)))
         {
             // play hit animation
-            pawnAnimator.TakeDamageAnim();
+            if (!isPlayer)
+            {
+                StopCoroutine(PlayHitVisual());
+                StopCoroutine(PlayEnemyTakeDamage());
+                hitVisual.SetActive(false);
+                gameObject.transform.position = new Vector3();
+                StartCoroutine(PlayHitVisual());
+                StartCoroutine(PlayEnemyTakeDamage());
+            }
+            //pawnAnimator.TakeDamageAnim();
+            if (isPlayer)
+            {
+                StopCoroutine(PlayPlayerTakeDamage());
+                playerFistLeft.transform.position = new Vector3();
+                playerFistRight.transform.position = new Vector3();
+                StartCoroutine(PlayPlayerTakeDamage());
+            }
             
 
             // attack hits the target
@@ -73,12 +101,12 @@ public class PawnStatus : MonoBehaviour
                     // play enemy defeated animation
                     // spawn next enemy
                     isPawnAlive = false;
+                    foreach (SpriteRenderer sprite in gameObject.GetComponentsInChildren<SpriteRenderer>())
+                    {
+                        sprite.enabled = false;
+                    }
                     StartCoroutine(SpawnNextEnemy());
                 }
-            }
-            if (!isPawnAlive)
-            {
-                return false;
             }
             return true;
         }
@@ -124,10 +152,43 @@ public class PawnStatus : MonoBehaviour
         yield return new WaitForSeconds(5f);
         health = 4;
         isPawnAlive = true;
+        foreach (SpriteRenderer sprite in gameObject.GetComponentsInChildren<SpriteRenderer>())
+        {
+            sprite.enabled = true;
+        }
+        // play enemy spawn animation
     }
 
     public bool IsPawnAlive()
     {
         return isPawnAlive;
+    }
+
+    IEnumerator PlayHitVisual()
+    {
+        hitVisual.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        hitVisual.SetActive(false);
+    }
+
+    IEnumerator PlayPlayerTakeDamage()
+    {
+        playerFistLeft.transform.Translate(playerFistLeft.transform.position.x, -0.3f, playerFistLeft.transform.position.z);
+        playerFistRight.transform.Translate(playerFistRight.transform.position.x, -0.3f, playerFistRight.transform.position.z);
+        yield return new WaitForSeconds(0.1f);
+        playerFistLeft.transform.Translate(playerFistLeft.transform.position.x, -0.1f, playerFistLeft.transform.position.z);
+        playerFistRight.transform.Translate(playerFistRight.transform.position.x, -0.1f, playerFistRight.transform.position.z);
+        yield return new WaitForSeconds(0.1f);
+        playerFistLeft.transform.Translate(playerFistLeft.transform.position.x, 0.4f, playerFistLeft.transform.position.z);
+        playerFistRight.transform.Translate(playerFistRight.transform.position.x, 0.4f, playerFistRight.transform.position.z);
+    }
+
+    IEnumerator PlayEnemyTakeDamage()
+    {
+        gameObject.transform.Translate(gameObject.transform.position.x, -0.3f, gameObject.transform.position.z);
+        yield return new WaitForSeconds(0.1f);
+        gameObject.transform.Translate(gameObject.transform.position.x, -0.1f, gameObject.transform.position.z);
+        yield return new WaitForSeconds(0.1f);
+        gameObject.transform.Translate(gameObject.transform.position.x, 0.4f, gameObject.transform.position.z);
     }
 }

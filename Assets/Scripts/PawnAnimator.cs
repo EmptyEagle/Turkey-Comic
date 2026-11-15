@@ -11,6 +11,7 @@ public class PawnAnimator : MonoBehaviour
     [SerializeField] protected Animator pawnAnimatorLeft;
     [SerializeField] protected Animator pawnAnimatorRight;
     private protected float frameTimePos;
+    private protected float frameTimeMult;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,6 +27,7 @@ public class PawnAnimator : MonoBehaviour
         pawnAnimatorRight.SetBool("BoolBlocking", false);
         canStartBlockLeft = true;
         canStartBlockRight = true;
+        frameTimeMult = 1f;
         StartCoroutine(AdvanceFrameTime());
     }
 
@@ -33,11 +35,11 @@ public class PawnAnimator : MonoBehaviour
     {
         while (true)
         {
-            if (frameTimePos > 3)
+            if (frameTimePos > 1)
             {
                 frameTimePos = 0;
             }
-            frameTimePos += 0.05f;
+            frameTimePos += 0.05f * frameTimeMult;
             yield return new WaitForSeconds(0.05f);
         }
     }
@@ -117,5 +119,15 @@ public class PawnAnimator : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
         pawnAnimatorRight.SetBool("BoolBlocking", false);
         canStartBlockRight = true;
+    }
+
+    public float GetFrameTimePosition()
+    {
+        return frameTimePos;
+    }
+
+    public void SetFrameTimeMult(float mult)
+    {
+        frameTimeMult = mult;
     }
 }

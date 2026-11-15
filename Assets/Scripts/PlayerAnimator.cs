@@ -103,7 +103,7 @@ public class PlayerAnimator : PawnAnimator
             yield return new WaitForSeconds(0.06f);
         }
         pawnAnimatorLeft.SetFloat("BlockValue", 0.5f);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.05f);
         pawnAnimatorLeft.SetFloat("BlockValue", 0);
         pawnAnimatorLeft.SetBool("BoolBlocking", false);
         canStartBlockLeft = true;
@@ -123,10 +123,9 @@ public class PlayerAnimator : PawnAnimator
                 blockTime = 0.5f;
             }
             yield return new WaitForSeconds(0.06f);
-            Debug.Log("Blocking anim");
         }
         pawnAnimatorRight.SetFloat("BlockValue", 0.5f);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.05f);
         pawnAnimatorRight.SetFloat("BlockValue", 0);
         pawnAnimatorRight.SetBool("BoolBlocking", false);
         canStartBlockRight = true;
