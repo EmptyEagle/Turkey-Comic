@@ -63,11 +63,13 @@ public class PawnStatus : MonoBehaviour
 
     public bool TryDamage(int damage, AttackTarget attackingSide)
     {
-        if (!isInvincible && IsPawnAlive() && health > 0 && ((attackingSide == AttackTarget.Left && !isBlockingLeft) || (attackingSide == AttackTarget.Right && !isBlockingRight)))
+        Debug.Log(gameObject.name+" TOOK DAMAGE");
+        if (!isInvincible && IsPawnAlive() && ((attackingSide == AttackTarget.Left && !isBlockingLeft) || (attackingSide == AttackTarget.Right && !isBlockingRight)))
         {
             // play hit animation
             if (!isPlayer)
             {
+                StartCoroutine(DoInvincibilityTime(0.4f));
                 StopCoroutine(PlayHitVisual());
                 StopCoroutine(PlayEnemyTakeDamage());
                 hitVisual.SetActive(false);
@@ -78,12 +80,13 @@ public class PawnStatus : MonoBehaviour
             //pawnAnimator.TakeDamageAnim();
             if (isPlayer)
             {
+                Debug.Log("PLAYER TAKE DAMAGE");
+                StartCoroutine(DoInvincibilityTime(0.1f));
                 StopCoroutine(PlayPlayerTakeDamage());
                 playerFistLeft.transform.position = new Vector3();
                 playerFistRight.transform.position = new Vector3();
                 StartCoroutine(PlayPlayerTakeDamage());
             }
-            StartCoroutine(DoInvincibilityTime(0.4f));
             
 
             // attack hits the target
@@ -92,6 +95,7 @@ public class PawnStatus : MonoBehaviour
                 health = maxHealth;
             }
             health -= damage;
+            Debug.Log(health+" PLAYER HEALTH REMAINING");
             if (!IsPawnAlive())
             {
                 if (isPlayer)
@@ -231,9 +235,7 @@ public class PawnStatus : MonoBehaviour
     IEnumerator DoInvincibilityTime(float time)
     {
         isInvincible = true;
-        if (!isPlayer) Debug.Log("NOW INVINCIBLE");
         yield return new WaitForSeconds(time);
         isInvincible = false;
-        if (!isPlayer) Debug.Log("INVINCIBLITY OVER");
     }
 }

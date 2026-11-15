@@ -4,8 +4,7 @@ using UnityEngine.EventSystems;
 
 public class ButtonHover : MonoBehaviour
 {
-    [SerializeField] Sprite defaultSprite;
-    [SerializeField] Sprite hoverSprite;
+
     private Image buttonImage;
 
     void Start()
@@ -16,13 +15,5 @@ public class ButtonHover : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (EventSystem.current.currentSelectedGameObject == gameObject)
-        {
-            buttonImage.sprite = hoverSprite;
-        }
-        else
-        {
-            buttonImage.sprite = defaultSprite;
-        }
     }
 }

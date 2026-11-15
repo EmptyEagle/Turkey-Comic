@@ -10,14 +10,14 @@ public class EnemyController : MonoBehaviour
     private bool canAttackRight;
     private bool canBlockLeft;
     private bool canBlockRight;
-    private PawnAnimator enemyAnimator;
+    private EnemyAnimator enemyAnimator;
     private bool canDoMove;
     [SerializeField] PlayerController playerController;
 
     void Start()
     {
         enemyStatus = GetComponent<PawnStatus>();
-        enemyAnimator = GetComponent<PawnAnimator>();
+        enemyAnimator = GetComponent<EnemyAnimator>();
         canAttackLeft = true;
         canAttackRight = true;
         canBlockLeft = true;
@@ -45,9 +45,8 @@ public class EnemyController : MonoBehaviour
 
     IEnumerator DoMove()
     {
-        float randSpeedMult = Random.Range(0.4f, 1f);
+        float randSpeedMult = Random.Range(0.4f, 0.8f);
         enemyAnimator.SetFrameTimeMult(randSpeedMult);
-        Debug.Log("Enemy speed mult "+randSpeedMult);
         canDoMove = false;
         yield return new WaitUntil(() => enemyAnimator.GetFrameTimePosition() >= 0.99);
         ExecuteMove();
@@ -63,90 +62,110 @@ public class EnemyController : MonoBehaviour
          * 15% chance to attack right
          * 10% chance to block both
          */
-        int rand = Random.Range(1, 101);
-        if (rand > 70)
+        bool successfulMove = false;
+        while (!successfulMove)
         {
-            AttemptBlockLeft();
+            int rand = Random.Range(1, 101);
+            if (rand > 70)
+            {
+                successfulMove = AttemptBlockLeft();
+            }
+            else if (rand > 40)
+            {
+                successfulMove = AttemptBlockRight();
+            }
+            else if (rand > 25)
+            {
+                successfulMove = AttemptAttackLeft();
+            }
+            else if (rand > 10)
+            {
+                successfulMove = AttemptAttackRight();
+            }
+            else
+            {
+                successfulMove = AttemptBlockLeft();
+                successfulMove = AttemptBlockRight();
+            }
         }
-        else if (rand > 40)
-        {
-            AttemptBlockRight();
-        }
-        else if (rand > 25)
-        {
-            AttemptAttackLeft();
-        }
-        else if (rand > 10)
-        {
-            AttemptAttackRight();
-        }
-        else
-        {
-            AttemptBlockLeft();
-            AttemptBlockRight();
-        }
+        
     }
 
-    private void AttemptAttackLeft()
+    private bool AttemptAttackLeft()
     {
         if (canAttackLeft)
         {
             StartCoroutine(AttackLeft());
+            return true;
         }
+        return false;
     }
 
-    private void AttemptAttackRight()
+    private bool AttemptAttackRight()
     {
         if (canAttackRight)
         {
             StartCoroutine(AttackRight());
+            return true;
         }
+        return false;
     }
 
-    public void AttemptBlockLeft()
+    private bool AttemptBlockLeft()
+    {
+        if (canBlockLeft)
+        {
+            StartCoroutine(BlockLeft(false));
+            return true;
+        }
+        return false;
+    }
+
+    public void ReactBlockLeft()
     {
         /*
          * when attacked:
-         * 25% chance to not block
-         * 50% chance to block the correct side
-         * 25% chance to block the incorrect side
+         * 50% chance to block correct side
          */
-        int rand = Random.Range(1, 100);
+        int rand = Random.Range(1, 101);
         if (rand > 50 && canBlockLeft)
         {
             // block correct side
             StopCoroutine(DoMove());
-            StartCoroutine(BlockLeft());
+            StartCoroutine(BlockLeft(true));
         }
-        else if (rand > 25 && canBlockLeft && canBlockRight)
+        else
         {
-            // block incorrect side
-            StopCoroutine(DoMove());
-            StartCoroutine(BlockRight());
+            Debug.Log("UNABLE TO REACT BLOCK");
         }
     }
 
-    public void AttemptBlockRight()
+    private bool AttemptBlockRight()
+    {
+        if (canBlockRight)
+        {
+            StartCoroutine(BlockRight(false));
+            return true;
+        }
+        return false;
+    }
+
+    public void ReactBlockRight()
     {
         /*
          * when attacked:
-         * 25% chance to not block
          * 50% chance to block the correct side
-         * 25% chance to block the incorrect side
          */
-        int rand = Random.Range(1, 100);
+        int rand = Random.Range(1, 101);
         if (rand > 50 && canBlockRight)
         {
             // block correct side
             StopCoroutine(DoMove());
-            StartCoroutine(BlockRight());
-
+            StartCoroutine(BlockRight(true));
         }
-        else if (rand > 25 && canBlockRight && canBlockLeft)
+        else
         {
-            // block incorrect side
-            StopCoroutine(DoMove());
-            StartCoroutine(BlockLeft());
+            Debug.Log("UNABLE TO REACT BLOCK");
         }
     }
 
@@ -163,7 +182,7 @@ public class EnemyController : MonoBehaviour
             // when landing a successful hit, reset player subsequent hits
             playerController.ResetSubsequentHits();
         }
-        yield return new WaitForSeconds(0.24f);
+        yield return new WaitForSeconds(0.1f);
         canAttackLeft = true;
         canAttackRight = true;
         canDoMove = true;
@@ -182,29 +201,55 @@ public class EnemyController : MonoBehaviour
             // when landing a successful hit, reset player subsequent hits
             playerController.ResetSubsequentHits();
         }
-        yield return new WaitForSeconds(0.24f);
+        yield return new WaitForSeconds(0.1f);
         canAttackRight = true;
         canAttackLeft = true;
         canDoMove = true;
     }
 
-    IEnumerator BlockLeft()
+    IEnumerator BlockLeft(bool isReaction)
     {
         canBlockLeft = false;
+        canAttackLeft = false;
+        canAttackRight = false;
         enemyStatus.SetBlockLeft(true);
-        yield return new WaitForSeconds(0.24f);
+        if (isReaction)
+        {
+            enemyAnimator.ReactBlockLeftAnim();
+        }
+        else
+        {
+            enemyAnimator.BlockLeftAnim();
+        }
+        // give a little delay before being open to attack again
+        yield return new WaitUntil(() => enemyAnimator.GetFrameTimePosition() >= 0.95);
         enemyStatus.SetBlockLeft(false);
         canBlockLeft = true;
+        canAttackLeft = true;
+        canAttackRight = true;
         canDoMove = true;
     }
 
-    IEnumerator BlockRight()
+    IEnumerator BlockRight(bool isReaction)
     {
         canBlockRight = false;
+        canAttackRight = false;
+        canAttackLeft = false;
         enemyStatus.SetBlockRight(true);
-        yield return new WaitForSeconds(0.24f);
+        if (isReaction)
+        {
+            enemyAnimator.ReactBlockRightAnim();
+        }
+        else
+        {
+            enemyAnimator.BlockRightAnim();
+        }
+        // give a little delay before being open to attack again
+        yield return new WaitUntil(() => enemyAnimator.GetFrameTimePosition() >= 0.95);
         enemyStatus.SetBlockRight(false);
         canBlockRight = true;
+        canAttackRight = true;
+        canAttackLeft = true;
         canDoMove = true;
     }
 
