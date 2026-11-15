@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         playerStatus = GetComponent<PawnStatus>();
-        playerAnimator = GetComponent<PawnAnimator>();
+        playerAnimator = GetComponent<PlayerAnimator>();
         canAttackLeft = true;
         canAttackRight = true;
         canBlockLeft = true;

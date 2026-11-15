@@ -619,11 +619,9 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b7942f2ac037de4698e6d4075d27563, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PawnAnimator
-  isEnemy: 0
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimator
   pawnAnimatorLeft: {fileID: 1786159690}
   pawnAnimatorRight: {fileID: 1474417428}
-  pawnAnimatorBody: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -723,10 +721,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+    x: 0.20833334
+    y: 0.03333333
+    width: 0.5833334
+    height: 0.93333334
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
@@ -1028,7 +1026,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: afd17f3cdbee5b042a071223bb50022f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1624,7 +1622,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -1577521967438292688, guid: 3804d34b8c6927b4292fa478f72fa6ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1647,7 +1645,7 @@ GameObject:
   - component: {fileID: 1548641086}
   - component: {fileID: 1548641085}
   - component: {fileID: 1548641084}
-  - component: {fileID: 1548641083}
+  - component: {fileID: 1548641087}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -1655,22 +1653,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1548641083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1548641082}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b7942f2ac037de4698e6d4075d27563, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PawnAnimator
-  isEnemy: 1
-  pawnAnimatorLeft: {fileID: 1086089218}
-  pawnAnimatorRight: {fileID: 298891124}
-  pawnAnimatorBody: {fileID: 202972111}
 --- !u!114 &1548641084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1719,6 +1701,21 @@ Transform:
   - {fileID: 202972109}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1548641087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548641082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a80e0785b6c3ff3dcb87cb077e2396e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimator
+  pawnAnimatorLeft: {fileID: 1086089218}
+  pawnAnimatorRight: {fileID: 298891124}
+  pawnAnimatorBody: {fileID: 202972111}
 --- !u!1 &1680694170
 GameObject:
   m_ObjectHideFlags: 0
@@ -1799,7 +1796,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_MaskInteraction: 0
   m_Sprite: {fileID: -1605613081320347366, guid: ceff6a34e7a54b34888c7866f8862737, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2017,7 +2014,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -1577521967438292688, guid: 3804d34b8c6927b4292fa478f72fa6ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2187,7 +2184,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: aa0136a412c02b748b257eea25933d58, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2279,7 +2276,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_MaskInteraction: 0
   m_Sprite: {fileID: 4489523611846888719, guid: a1437f5cd703e4441922b87e490b242d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

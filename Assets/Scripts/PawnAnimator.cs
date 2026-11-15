@@ -3,15 +3,14 @@ using UnityEngine;
 
 public class PawnAnimator : MonoBehaviour
 {
-    private PawnStatus pawnStatus;
-    [SerializeField] bool isEnemy;
-    private bool isAttackingLeft;
-    private bool isAttackingRight;
-    private bool canStartBlockLeft;
-    private bool canStartBlockRight;
-    [SerializeField] Animator pawnAnimatorLeft;
-    [SerializeField] Animator pawnAnimatorRight;
-    [SerializeField] Animator pawnAnimatorBody;
+    private protected PawnStatus pawnStatus;
+    private protected bool isAttackingLeft;
+    private protected bool isAttackingRight;
+    private protected bool canStartBlockLeft;
+    private protected bool canStartBlockRight;
+    [SerializeField] protected Animator pawnAnimatorLeft;
+    [SerializeField] protected Animator pawnAnimatorRight;
+    private protected float frameTimePos;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,25 +26,23 @@ public class PawnAnimator : MonoBehaviour
         pawnAnimatorRight.SetBool("BoolBlocking", false);
         canStartBlockLeft = true;
         canStartBlockRight = true;
-        if (isEnemy)
-        {
-            pawnAnimatorBody.SetFloat("BoolNotMoving", 1);
-            StartCoroutine(AnimateBody());
-        }
+        StartCoroutine(AdvanceFrameTime());
     }
 
-    private IEnumerator AnimateBody()
+    private IEnumerator AdvanceFrameTime()
     {
-        float bodyPosition = pawnAnimatorBody.GetFloat("BodyPosition");
-        while (bodyPosition <= 3)
+        while (true)
         {
-            bodyPosition += 0.1f;
-            pawnAnimatorBody.SetFloat("BodyPosition", bodyPosition);
-            yield return new WaitForSeconds(0.1f);
+            if (frameTimePos > 3)
+            {
+                frameTimePos = 0;
+            }
+            frameTimePos += 0.05f;
+            yield return new WaitForSeconds(0.05f);
         }
     }
 
-    public void AttackLeftAnim()
+    public virtual void AttackLeftAnim()
     {
         if (!isAttackingLeft)
         {
@@ -53,7 +50,7 @@ public class PawnAnimator : MonoBehaviour
         }
     }
 
-    public void AttackRightAnim()
+    public virtual void AttackRightAnim()
     {
         if (!isAttackingRight)
         {
@@ -61,23 +58,25 @@ public class PawnAnimator : MonoBehaviour
         }
     }
 
-    public void BlockLeftAnim()
+    public virtual void BlockLeftAnim()
     {
         if (canStartBlockLeft)
         {
+            Debug.Log("Block left");
             StartCoroutine(PlayLeftBlockAnim());
         }
     }
 
-    public void BlockRightAnim()
+    public virtual void BlockRightAnim()
     {
         if (canStartBlockRight)
         {
+            Debug.Log("Block right");
             StartCoroutine(PlayRightBlockAnim());
         }
     }
 
-    public void TakeDamageAnim()
+    public virtual void TakeDamageAnim()
     {
         // play take damage animation
     }
@@ -86,34 +85,9 @@ public class PawnAnimator : MonoBehaviour
     {
         // play animation
         isAttackingLeft = true;
-        float punchTime = 0;
         // DIFFERENT GLOVE OBJECTS EACH WITH ITS OWN INSTANCE OF THE ANIMATOR
-        // stop moving body if doing an action
-        if (isEnemy)
-        {
-            pawnAnimatorBody.SetFloat("BoolNotMoving", 0);
-            StopCoroutine(AnimateBody());
-            pawnAnimatorBody.SetFloat("BodyPosition", 0);
-        }
         pawnAnimatorLeft.SetTrigger("TrPunch");
-        while (true)
-        {
-            pawnAnimatorLeft.SetFloat("PunchValue", punchTime);
-            punchTime += 0.25f;
-            if (punchTime > 1)
-            {
-                break;
-            }
-            yield return new WaitForSeconds(0.06f);
-        }
-        pawnAnimatorLeft.SetFloat("PunchValue", 1);
-        yield return new WaitForSeconds(0.1f);
-        pawnAnimatorLeft.SetFloat("PunchValue", 0);
-        if (isEnemy)
-        {
-            pawnAnimatorBody.SetFloat("BoolNotMoving", 1);
-            StartCoroutine(AnimateBody());
-        }
+        yield return new WaitForSeconds(0.25f);
         isAttackingLeft = false;
     }
 
@@ -121,103 +95,27 @@ public class PawnAnimator : MonoBehaviour
     {
         // play animation
         isAttackingRight = true;
-        float punchTime = 0;
         // DIFFERENT GLOVE OBJECTS EACH WITH ITS OWN INSTANCE OF THE ANIMATOR
-        // stop moving body if doing an action
-        if (isEnemy)
-        {
-            pawnAnimatorBody.SetFloat("BoolNotMoving", 0);
-            StopCoroutine(AnimateBody());
-            pawnAnimatorBody.SetFloat("BodyPosition", 0);
-        }
         pawnAnimatorRight.SetTrigger("TrPunch");
-        while (true)
-        {
-            pawnAnimatorRight.SetFloat("PunchValue", punchTime);
-            punchTime += 0.25f;
-            if (punchTime > 1)
-            {
-                break;
-            }
-            yield return new WaitForSeconds(0.06f);
-        }
-        pawnAnimatorRight.SetFloat("PunchValue", 1);
-        yield return new WaitForSeconds(0.1f);
-        pawnAnimatorRight.SetFloat("PunchValue", 0);
-        if (isEnemy)
-        {
-            pawnAnimatorBody.SetFloat("BoolNotMoving", 1);
-            StartCoroutine(AnimateBody());
-        }
+        yield return new WaitForSeconds(0.25f);
         isAttackingRight = false;
     }
 
     private IEnumerator PlayLeftBlockAnim()
     {
         canStartBlockLeft = false;
-        float blockTime = 0;
-        // stop moving body if doing an action
-        if (isEnemy)
-        {
-            pawnAnimatorBody.SetFloat("BoolNotMoving", 0);
-            StopCoroutine(AnimateBody());
-            pawnAnimatorBody.SetFloat("BodyPosition", 0);
-        }
         pawnAnimatorLeft.SetBool("BoolBlocking", true);
-        while (pawnStatus.GetBlockLeft())
-        {
-            pawnAnimatorLeft.SetFloat("BlockValue", blockTime);
-            blockTime += 0.5f;
-            if (blockTime > 0.5f)
-            {
-                blockTime = 0.5f;
-            }
-            yield return new WaitForSeconds(0.06f);
-        }
-        pawnAnimatorLeft.SetFloat("BlockValue", 0.5f);
-        yield return new WaitForSeconds(0.1f);
-        pawnAnimatorLeft.SetFloat("BlockValue", 0);
+        yield return new WaitForSeconds(0.25f);
         pawnAnimatorLeft.SetBool("BoolBlocking", false);
-        if (isEnemy)
-        {
-            pawnAnimatorBody.SetFloat("BoolNotMoving", 1);
-            StartCoroutine(AnimateBody());
-        }
         canStartBlockLeft = true;
     }
 
     private IEnumerator PlayRightBlockAnim()
     {
         canStartBlockRight = false;
-        float blockTime = 0;
-        // stop moving body if doing an action
-        if (isEnemy)
-        {
-            pawnAnimatorBody.SetFloat("BoolNotMoving", 0);
-            StopCoroutine(AnimateBody());
-            pawnAnimatorBody.SetFloat("BodyPosition", 0);
-        }
         pawnAnimatorRight.SetBool("BoolBlocking", true);
-        while (pawnStatus.GetBlockRight())
-        {
-            pawnAnimatorRight.SetFloat("BlockValue", blockTime);
-            blockTime += 0.5f;
-            if (blockTime > 0.5f)
-            {
-                blockTime = 0.5f;
-            }
-            yield return new WaitForSeconds(0.06f);
-            Debug.Log("Blocking anim");
-        }
-        pawnAnimatorRight.SetFloat("BlockValue", 0.5f);
-        yield return new WaitForSeconds(0.1f);
-        pawnAnimatorRight.SetFloat("BlockValue", 0);
+        yield return new WaitForSeconds(0.25f);
         pawnAnimatorRight.SetBool("BoolBlocking", false);
-        if (isEnemy)
-        {
-            pawnAnimatorBody.SetFloat("BoolNotMoving", 1);
-            StartCoroutine(AnimateBody());
-        }
         canStartBlockRight = true;
     }
 }
