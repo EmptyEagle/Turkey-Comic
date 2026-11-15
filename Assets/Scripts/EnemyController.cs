@@ -32,14 +32,14 @@ public class EnemyController : MonoBehaviour
         {
             StartCoroutine(DoMove());
         }
-
     }
 
     IEnumerator DoMove()
     {
+        float randSpeedMult = Random.Range(0.5f, 1.2f);
+        enemyAnimator.SetFrameTimeMult(randSpeedMult);
         canDoMove = false;
-        float rand = Random.Range(0.9f, 1.6f);
-        yield return new WaitForSeconds(rand);
+        yield return new WaitUntil(() => enemyAnimator.GetFrameTimePosition() >= 0.99);
         ExecuteMove();
         canDoMove = true;
     }
@@ -54,7 +54,7 @@ public class EnemyController : MonoBehaviour
          * 15% chance to attack right
          * 10% chance to block both
          */
-        int rand = Random.Range(1, 100);
+        int rand = Random.Range(1, 101);
         if (rand > 70)
         {
             AttemptBlockLeft();
@@ -147,6 +147,8 @@ public class EnemyController : MonoBehaviour
         canAttackRight = false;
         Debug.Log("Enemy attacking left");
         enemyAnimator.AttackLeftAnim();
+        // give a little delay before dealing damage to give player a chance to block
+        yield return new WaitForSeconds(0.25f);
         if (playerStatus.TryDamage(1, PawnStatus.AttackTarget.Left))
         {
             // when landing a successful hit, reset player subsequent hits
@@ -163,6 +165,8 @@ public class EnemyController : MonoBehaviour
         canAttackLeft = false;
         Debug.Log("Enemy attacking left");
         enemyAnimator.AttackRightAnim();
+        // give a little delay before dealing damage to give player a chance to block
+        yield return new WaitForSeconds(0.25f);
         if (playerStatus.TryDamage(1, PawnStatus.AttackTarget.Right))
         {
             // when landing a successful hit, reset player subsequent hits

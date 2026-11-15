@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: glove_block
+  m_Name: player_block
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,9 +21,9 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -1577521967438292688, guid: 3804d34b8c6927b4292fa478f72fa6ce, type: 3}
+      value: {fileID: -2139755782, guid: 374da85fad4b8ea4dae9d3bb775cd4f9, type: 3}
     - time: 0.083333336
-      value: {fileID: -4275266120447503645, guid: 3804d34b8c6927b4292fa478f72fa6ce, type: 3}
+      value: {fileID: 394283655, guid: 374da85fad4b8ea4dae9d3bb775cd4f9, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -46,8 +46,8 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -1577521967438292688, guid: 3804d34b8c6927b4292fa478f72fa6ce, type: 3}
-    - {fileID: -4275266120447503645, guid: 3804d34b8c6927b4292fa478f72fa6ce, type: 3}
+    - {fileID: -2139755782, guid: 374da85fad4b8ea4dae9d3bb775cd4f9, type: 3}
+    - {fileID: 394283655, guid: 374da85fad4b8ea4dae9d3bb775cd4f9, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

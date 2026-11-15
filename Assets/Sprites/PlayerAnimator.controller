@@ -33,7 +33,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: New State
-  m_Speed: 1
+  m_Speed: 0
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -188,7 +188,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 1
-  m_Motion: {fileID: 7400000, guid: 113de5ca6cf6496459967d813efc0c65, type: 2}
+  m_Motion: {fileID: 7400000, guid: 4f372b31c30cd77a7a96181b81cef26a, type: 2}
   m_Tag: 
   m_SpeedParameter: PunchValue
   m_MirrorParameter: 
@@ -215,7 +215,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 1
-  m_Motion: {fileID: 7400000, guid: ac86d0015876dd846a642c93e20150ac, type: 2}
+  m_Motion: {fileID: 7400000, guid: af00a4b8f8514691ea2dc003a09abe0f, type: 2}
   m_Tag: 
   m_SpeedParameter: BlockValue
   m_MirrorParameter: 
