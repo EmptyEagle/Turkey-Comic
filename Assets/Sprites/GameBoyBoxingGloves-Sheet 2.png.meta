@@ -1,0 +1,305 @@
+fileFormatVersion: 2
+guid: 374da85fad4b8ea4dae9d3bb775cd4f9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2008245469218314350
+    second: GameBoyBoxingGloves-Sheet 1_0
+  - first:
+      213: 1979701902598728094
+    second: GameBoyBoxingGloves-Sheet 1_1
+  - first:
+      213: -3071650638856140327
+    second: GameBoyBoxingGloves-Sheet 1_2
+  - first:
+      213: 4051036373375204899
+    second: GameBoyBoxingGloves-Sheet 1_3
+  - first:
+      213: 1040925229656362176
+    second: GameBoyBoxingGloves-Sheet 1_4
+  - first:
+      213: -946106139744014139
+    second: GameBoyBoxingGloves-Sheet 1_5
+  - first:
+      213: 4628066348757593991
+    second: GameBoyBoxingGloves-Sheet 1_6
+  - first:
+      213: 418832745888303450
+    second: GameBoyBoxingGloves-Sheet 1_7
+  - first:
+      213: 5679665195151444158
+    second: GameBoyBoxingGloves-Sheet 1_8
+  - first:
+      213: 6798190896282696088
+    second: GameBoyBoxingGloves-Sheet 1_9
+  - first:
+      213: 6253663577206023574
+    second: GameBoyBoxingGloves-Sheet 1_10
+  - first:
+      213: -7147175323078562480
+    second: GameBoyBoxingGloves-Sheet 1_11
+  - first:
+      213: -4013516555851730654
+    second: GameBoyBoxingGloves-Sheet 1_12
+  - first:
+      213: 7546655917553280134
+    second: GameBoyBoxingGloves-Sheet 1_13
+  - first:
+      213: -3336240340490874995
+    second: GameBoyBoxingGloves-Sheet 1_14
+  - first:
+      213: -7200488181227630861
+    second: GameBoyBoxingGloves-Sheet 1_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: GameBoyBoxingGloves-Sheet 2_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 160
+        height: 144
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0ca7498e17c11540b764de4f81415c3
+      internalID: -2139755782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GameBoyBoxingGloves-Sheet 2_1
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 160
+        height: 144
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 574d3589c2c5fbb4c9ea1172a094d064
+      internalID: 1516248043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GameBoyBoxingGloves-Sheet 2_2
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 160
+        height: 144
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9f1271d076d8ab48b1217a05aa1b8b1
+      internalID: 1295400747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GameBoyBoxingGloves-Sheet 2_3
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 160
+        height: 144
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5283b33173ff3174bafc5825310c7a47
+      internalID: 1655275490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GameBoyBoxingGloves-Sheet 2_14
+      rect:
+        serializedVersion: 2
+        x: 2240
+        y: 0
+        width: 160
+        height: 144
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33837251da1d0614abfc652efa994489
+      internalID: 394283655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: ec369135478566443a501eb13b61500d
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":160.0,"y":144.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      GameBoyBoxingGloves-Sheet 2_0: -2139755782
+      GameBoyBoxingGloves-Sheet 2_1: 1516248043
+      GameBoyBoxingGloves-Sheet 2_10: -838682616
+      GameBoyBoxingGloves-Sheet 2_11: -634646983
+      GameBoyBoxingGloves-Sheet 2_12: 2026736805
+      GameBoyBoxingGloves-Sheet 2_13: -1339453493
+      GameBoyBoxingGloves-Sheet 2_14: 394283655
+      GameBoyBoxingGloves-Sheet 2_2: 1295400747
+      GameBoyBoxingGloves-Sheet 2_3: 1655275490
+      GameBoyBoxingGloves-Sheet 2_4: -2024249477
+      GameBoyBoxingGloves-Sheet 2_5: 1074512219
+      GameBoyBoxingGloves-Sheet 2_6: -26975738
+      GameBoyBoxingGloves-Sheet 2_7: 1053797154
+      GameBoyBoxingGloves-Sheet 2_8: -1306125312
+      GameBoyBoxingGloves-Sheet 2_9: -339643777
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
