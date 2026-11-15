@@ -611,6 +611,8 @@ MonoBehaviour:
   hitVisual: {fileID: 986022372}
   playerFistLeft: {fileID: 1786159689}
   playerFistRight: {fileID: 1474417427}
+  enemyController: {fileID: 1548641085}
+  playerController: {fileID: 323364444}
 --- !u!114 &323364447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1880,6 +1882,8 @@ MonoBehaviour:
   hitVisual: {fileID: 986022372}
   playerFistLeft: {fileID: 1786159689}
   playerFistRight: {fileID: 1474417427}
+  enemyController: {fileID: 1548641085}
+  playerController: {fileID: 323364444}
 --- !u!114 &1548641085
 MonoBehaviour:
   m_ObjectHideFlags: 0

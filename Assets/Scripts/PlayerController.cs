@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
             AttackRight();
         }
         // if player has the ability to attack that means they have the ability to block
-        if (blockLeft.WasPressedThisFrame() && canAttackLeft)
+        if (blockLeft.IsPressed() && canAttackLeft)
         {
             BlockStartLeft();
         }
@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
         {
             playerStatus.SetBlockLeft(false);
         }
-        if (blockRight.WasPressedThisFrame() && canAttackRight)
+        if (blockRight.IsPressed() && canAttackRight)
         {
             BlockStartRight();
         }
