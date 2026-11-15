@@ -38,12 +38,22 @@ public class EnemyAnimator : PawnAnimator
         }
     }
 
+    public void ReactBlockLeftAnim()
+    {
+        StartCoroutine(PlayReactLeftBlockAnim());
+    }
+
     public override void BlockRightAnim()
     {
         if (canStartBlockRight)
         {
             StartCoroutine(PlayRightBlockAnim());
         }
+    }
+
+    public void ReactBlockRightAnim()
+    {
+        StartCoroutine(PlayReactRightBlockAnim());
     }
 
     public override void TakeDamageAnim()
@@ -57,7 +67,7 @@ public class EnemyAnimator : PawnAnimator
         isAttackingLeft = true;
         frameTimePos = 0;
         pawnAnimatorLeft.SetTrigger("TrPunch");
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.5f);
         isAttackingLeft = false;
     }
 
@@ -67,27 +77,42 @@ public class EnemyAnimator : PawnAnimator
         isAttackingRight = true;
         frameTimePos = 0;
         pawnAnimatorRight.SetTrigger("TrPunch");
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.5f);
         isAttackingRight = false;
     }
 
-    private IEnumerator PlayLeftBlockAnim()
+    protected override IEnumerator PlayLeftBlockAnim()
     {
         canStartBlockLeft = false;
         frameTimePos = 0;
-        pawnAnimatorLeft.SetBool("BoolBlocking", true);
-        yield return new WaitForSeconds(1f);
-        pawnAnimatorLeft.SetBool("BoolBlocking", false);
+        pawnAnimatorLeft.SetTrigger("TrBlock");
+        yield return new WaitForSeconds(0.5f);
         canStartBlockLeft = true;
     }
 
-    private IEnumerator PlayRightBlockAnim()
+    private IEnumerator PlayReactLeftBlockAnim()
+    {
+        canStartBlockLeft = false;
+        frameTimePos = 0.9f;
+        pawnAnimatorLeft.SetTrigger("TrBlock");
+        yield return new WaitForSeconds(0.5f);
+        canStartBlockLeft = true;
+    }
+
+    protected override IEnumerator PlayRightBlockAnim()
     {
         canStartBlockRight = false;
         frameTimePos = 0;
-        pawnAnimatorRight.SetBool("BoolBlocking", true);
-        yield return new WaitForSeconds(1f);
-        pawnAnimatorRight.SetBool("BoolBlocking", false);
+        pawnAnimatorRight.SetTrigger("TrBlock");
+        yield return new WaitForSeconds(0.5f);
+        canStartBlockRight = true;
+    }
+
+    private IEnumerator PlayReactRightBlockAnim()
+    {
+        frameTimePos = 0.9f;
+        pawnAnimatorRight.SetTrigger("TrBlock");
+        yield return new WaitForSeconds(0.5f);
         canStartBlockRight = true;
     }
 }

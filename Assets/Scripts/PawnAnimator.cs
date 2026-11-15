@@ -6,8 +6,8 @@ public class PawnAnimator : MonoBehaviour
     private protected PawnStatus pawnStatus;
     private protected bool isAttackingLeft;
     private protected bool isAttackingRight;
-    private protected bool canStartBlockLeft;
-    private protected bool canStartBlockRight;
+    protected bool canStartBlockLeft;
+    protected bool canStartBlockRight;
     [SerializeField] protected Animator pawnAnimatorLeft;
     [SerializeField] protected Animator pawnAnimatorRight;
     private protected float frameTimePos;
@@ -15,7 +15,7 @@ public class PawnAnimator : MonoBehaviour
     private bool shouldAnimate;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected virtual void Start()
     {
         pawnStatus = GetComponent<PawnStatus>();
         isAttackingLeft = false;
@@ -23,9 +23,7 @@ public class PawnAnimator : MonoBehaviour
         pawnAnimatorLeft.SetFloat("PunchValue", 0);
         pawnAnimatorRight.SetFloat("PunchValue", 0);
         pawnAnimatorLeft.SetFloat("BlockValue", 0);
-        pawnAnimatorLeft.SetBool("BoolBlocking", false);
         pawnAnimatorRight.SetFloat("BlockValue", 0);
-        pawnAnimatorRight.SetBool("BoolBlocking", false);
         canStartBlockLeft = true;
         canStartBlockRight = true;
         frameTimeMult = 1f;
@@ -114,7 +112,7 @@ public class PawnAnimator : MonoBehaviour
         isAttackingRight = false;
     }
 
-    private IEnumerator PlayLeftBlockAnim()
+    protected virtual IEnumerator PlayLeftBlockAnim()
     {
         canStartBlockLeft = false;
         pawnAnimatorLeft.SetBool("BoolBlocking", true);
@@ -123,7 +121,7 @@ public class PawnAnimator : MonoBehaviour
         canStartBlockLeft = true;
     }
 
-    private IEnumerator PlayRightBlockAnim()
+    protected virtual IEnumerator PlayRightBlockAnim()
     {
         canStartBlockRight = false;
         pawnAnimatorRight.SetBool("BoolBlocking", true);

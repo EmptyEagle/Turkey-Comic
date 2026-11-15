@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     private bool canBlockLeft;
     private bool canBlockRight;
     
-    private PawnAnimator playerAnimator;
+    private PlayerAnimator playerAnimator;
     
     [SerializeField] EnemyController enemyController;
     // player can recover health by landing four hits without getting hit
@@ -128,7 +128,11 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(DoAttackCooldownLeft());
             playerAnimator.AttackLeftAnim();
-            enemyController.AttemptBlockLeft();
+            // enemy attempts to block if they aren't already blocking
+            if (!enemyStatus.GetBlockLeft())
+            {
+                enemyController.ReactBlockLeft();
+            }
             if (enemyStatus.TryDamage(1, PawnStatus.AttackTarget.Left))
             {
                 subsequentHits++;
@@ -148,7 +152,10 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(DoAttackCooldownRight());
             playerAnimator.AttackRightAnim();
-            enemyController.AttemptBlockRight();
+            if (!enemyStatus.GetBlockRight())
+            {
+                enemyController.ReactBlockRight();
+            }
             if (enemyStatus.TryDamage(1, PawnStatus.AttackTarget.Right))
             {
                 subsequentHits++;

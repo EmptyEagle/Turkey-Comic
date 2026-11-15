@@ -35,9 +35,9 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: BoolBlocking
-    m_EventTreshold: 0
+  - m_ConditionMode: 3
+    m_ConditionEvent: BlockValue
+    m_EventTreshold: 0.9
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 535550101265737289}
   m_Solo: 0
@@ -61,7 +61,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: BoolBlocking
+    m_ConditionEvent: TrBlock
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -1276287075097739777}
@@ -138,12 +138,6 @@ AnimatorController:
   m_Name: EnemyLeftAnimator
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: BoolBlocking
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
   - m_Name: PunchValue
     m_Type: 1
     m_DefaultFloat: 0
@@ -158,6 +152,12 @@ AnimatorController:
     m_Controller: {fileID: 9100000}
   - m_Name: BlockValue
     m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: TrBlock
+    m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0

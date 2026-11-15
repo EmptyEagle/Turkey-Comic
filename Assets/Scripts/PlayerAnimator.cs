@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class PlayerAnimator : PawnAnimator
 {
+    protected override void Start()
+    {
+        base.Start();
+        pawnAnimatorLeft.SetBool("BoolBlocking", false);
+        pawnAnimatorRight.SetBool("BoolBlocking", false);
+    }
 
     public override void AttackLeftAnim()
     {
@@ -87,7 +93,7 @@ public class PlayerAnimator : PawnAnimator
         isAttackingRight = false;
     }
 
-    private IEnumerator PlayLeftBlockAnim()
+    protected override IEnumerator PlayLeftBlockAnim()
     {
         canStartBlockLeft = false;
         float blockTime = 0;
@@ -109,7 +115,7 @@ public class PlayerAnimator : PawnAnimator
         canStartBlockLeft = true;
     }
 
-    private IEnumerator PlayRightBlockAnim()
+    protected override IEnumerator PlayRightBlockAnim()
     {
         canStartBlockRight = false;
         float blockTime = 0;
