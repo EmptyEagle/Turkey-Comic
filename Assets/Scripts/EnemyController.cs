@@ -36,7 +36,7 @@ public class EnemyController : MonoBehaviour
 
     IEnumerator DoMove()
     {
-        float randSpeedMult = Random.Range(0.5f, 1.2f);
+        float randSpeedMult = Random.Range(0.6f, 1.1f);
         enemyAnimator.SetFrameTimeMult(randSpeedMult);
         canDoMove = false;
         yield return new WaitUntil(() => enemyAnimator.GetFrameTimePosition() >= 0.99);
@@ -145,36 +145,40 @@ public class EnemyController : MonoBehaviour
     {
         canAttackLeft = false;
         canAttackRight = false;
+        canBlockLeft = false;
         Debug.Log("Enemy attacking left");
         enemyAnimator.AttackLeftAnim();
         // give a little delay before dealing damage to give player a chance to block
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitUntil(() => enemyAnimator.GetFrameTimePosition() >= 0.7);
         if (playerStatus.TryDamage(1, PawnStatus.AttackTarget.Left))
         {
             // when landing a successful hit, reset player subsequent hits
             playerController.ResetSubsequentHits();
         }
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.24f);
         canAttackLeft = true;
         canAttackRight = true;
+        canDoMove = true;
     }
 
     IEnumerator AttackRight()
     {
         canAttackRight = false;
         canAttackLeft = false;
+        canBlockRight = false;
         Debug.Log("Enemy attacking left");
         enemyAnimator.AttackRightAnim();
         // give a little delay before dealing damage to give player a chance to block
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitUntil(() => enemyAnimator.GetFrameTimePosition() >= 0.7);
         if (playerStatus.TryDamage(1, PawnStatus.AttackTarget.Right))
         {
             // when landing a successful hit, reset player subsequent hits
             playerController.ResetSubsequentHits();
         }
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.24f);
         canAttackRight = true;
         canAttackLeft = true;
+        canDoMove = true;
     }
 
     IEnumerator BlockLeft()

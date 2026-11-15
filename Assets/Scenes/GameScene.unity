@@ -609,6 +609,8 @@ MonoBehaviour:
   blockingRightText: {fileID: 1845597736}
   healthText: {fileID: 1192776676}
   hitVisual: {fileID: 986022372}
+  playerFistLeft: {fileID: 1786159689}
+  playerFistRight: {fileID: 1474417427}
 --- !u!114 &323364447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -723,10 +725,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+    x: 0.20833334
+    y: 0.03333333
+    width: 0.5833334
+    height: 0.93333334
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
@@ -1876,6 +1878,8 @@ MonoBehaviour:
   blockingRightText: {fileID: 1702502858}
   healthText: {fileID: 69985423}
   hitVisual: {fileID: 986022372}
+  playerFistLeft: {fileID: 1786159689}
+  playerFistRight: {fileID: 1474417427}
 --- !u!114 &1548641085
 MonoBehaviour:
   m_ObjectHideFlags: 0
