@@ -51,6 +51,7 @@ public class PawnStatus : MonoBehaviour
         {
             // play hit animation
             pawnAnimator.TakeDamageAnim();
+            
 
             // attack hits the target
             health -= damage;
