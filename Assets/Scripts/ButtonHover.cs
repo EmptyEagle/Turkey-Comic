@@ -11,7 +11,6 @@ public class ButtonHover : MonoBehaviour
     {
         buttonImage = GetComponent<Image>();
     }
-
     // Update is called once per frame
     void Update()
     {

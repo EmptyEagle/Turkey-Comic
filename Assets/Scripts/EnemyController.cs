@@ -63,7 +63,8 @@ public class EnemyController : MonoBehaviour
          * 10% chance to block both
          */
         bool successfulMove = false;
-        while (!successfulMove)
+        int numAttempts = 0;
+        while (!successfulMove && numAttempts < 10)
         {
             int rand = Random.Range(1, 101);
             if (rand > 70)
@@ -87,6 +88,7 @@ public class EnemyController : MonoBehaviour
                 successfulMove = AttemptBlockLeft();
                 successfulMove = AttemptBlockRight();
             }
+            numAttempts++;
         }
         
     }

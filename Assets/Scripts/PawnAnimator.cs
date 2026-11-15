@@ -73,7 +73,6 @@ public class PawnAnimator : MonoBehaviour
     {
         if (canStartBlockLeft)
         {
-            Debug.Log("Block left");
             StartCoroutine(PlayLeftBlockAnim());
         }
     }
@@ -82,7 +81,6 @@ public class PawnAnimator : MonoBehaviour
     {
         if (canStartBlockRight)
         {
-            Debug.Log("Block right");
             StartCoroutine(PlayRightBlockAnim());
         }
     }
